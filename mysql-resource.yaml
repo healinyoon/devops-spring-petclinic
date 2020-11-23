@@ -1,3 +1,4 @@
+# mysql service
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,6 +13,7 @@ spec:
     tier: mysql
   clusterIP: None
 ---
+# mysql deployment
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
@@ -24,7 +26,10 @@ spec:
       app: spring-petclinic
       tier: mysql
   strategy:
-    type: Recreate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
   template:
     metadata:
       labels:

@@ -1,3 +1,4 @@
+# spring petclinic ingress
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -14,6 +15,7 @@ spec:
           serviceName: spring-petclinic
           servicePort: 8080
 ---
+# spring petclinic service 
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,6 +31,7 @@ spec:
     tier: frontend
   type: NodePort
 ---
+# spring petclinic deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
