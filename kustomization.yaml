@@ -1,0 +1,13 @@
+secretGenerator:
+- name: mysql-env
+  literals:
+  - mysql-root-pass=petclinic
+  - mysql-user=petclinic
+  - mysql-pass=petclinic
+  - mysql-database=petclinic
+- name: spring-env
+  literals:
+  - spring-datasource-url=jdbc:mysql://mysql-petclinic/petclinic?autoReconnect=true&useSSL=false
+resources:
+  - mysql-resource.yaml
+  - spring-petclinic-resource.yaml

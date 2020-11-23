@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-petclinic
+  labels:
+    app: spring-petclinic
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: spring-petclinic
+    tier: mysql
+  clusterIP: None
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: mysql-petclinic
+  labels:
+    app: spring-petclinic
+spec:
+  selector:
+    matchLabels:
+      app: spring-petclinic
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-env
+              key: mysql-root-pass
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-env
+              key: mysql-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-env
+              key: mysql-pass
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-env
+              key: mysql-database
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-volume
+        hostPath:
+          path: /opt/mysql
+          type: DirectoryOrCreate
