@@ -101,6 +101,24 @@ spec:
           servicePort: 8080
 ```
 
+* ingress 확인
+```
+$ kubectl get ingress
+Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+NAME                       CLASS    HOSTS            ADDRESS     PORTS   AGE
+http-go-ingress            <none>   gasbugs.com      10.1.11.9   80      5d7h
+spring-petclinic-ingress   <none>   healinyoon.com   10.1.11.9   80      101s
+```
+
+* svc 확인
+```
+$ kubectl get svc
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+kubernetes         ClusterIP   10.96.0.1        <none>        443/TCP          76d
+mysql-petclinic    ClusterIP   None             <none>        3306/TCP         2m29s
+spring-petclinic   NodePort    10.110.207.204   <none>        8080:31981/TCP   2m29s
+```
+
 > (참고) hostname 설정 필요
 ```
 # vi /etc/hosts
